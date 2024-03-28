@@ -1,5 +1,7 @@
 import { createApp } from 'vue'
 import './style.css'
+import PrimeVue from 'primevue/config'
+import tailwindPt from './pt/tailwind-pt.ts'
 //@ts-ignore
 import { createRouter, createWebHistory } from 'vue-router/auto'
 //@ts-ignore
@@ -9,4 +11,7 @@ const router = createRouter({
     history: createWebHistory()
 })
 
-createApp(App).use(router).mount('#app')
+createApp(App)
+    .use(router)
+    .use(PrimeVue, { unstyled: true, pt: tailwindPt })
+    .mount('#app')
