@@ -15,4 +15,10 @@ export default defineConfig({
       VueRouter({}),
       vue()
   ],
+  server: {
+      watch: {
+          usePolling: true
+      },
+      host: true
+  }
 })
