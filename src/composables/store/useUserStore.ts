@@ -14,6 +14,8 @@ interface State {
 export const useUserStore = defineStore('user', {
     state: () : State => ({ authenticated: false, user: null }),
     getters: {
+      name: (state) : string => state.user?.name ?? '',
+      avatarUrl: (state) : string => state.user?.avatarUrl ?? '',
       isAuthenticated: (state) : boolean => state.authenticated
     },
     actions: {
