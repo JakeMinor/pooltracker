@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import { createPinia } from "pinia";
 import './style.css'
 import PrimeVue from 'primevue/config'
 import tailwindPt from './pt/tailwind-pt.ts'
@@ -13,5 +14,6 @@ const router = createRouter({
 
 createApp(App)
     .use(router)
+    .use(createPinia())
     .use(PrimeVue, { unstyled: true, pt: tailwindPt })
     .mount('#app')
