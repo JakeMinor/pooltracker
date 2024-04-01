@@ -9,6 +9,6 @@ import {onMounted, ref} from "vue";
 const users = ref<any>()
 
 onMounted(async () => {
-  users.value = await getAll("users")
+  users.value = await getAll("test")
 })
 </script>

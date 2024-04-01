@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN npm install
 
 # Copy everything inside the container.
-COPY . .
+COPY .. .
 
 # Make the default port (5173) available to docker.
 EXPOSE 5173
