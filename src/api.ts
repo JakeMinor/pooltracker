@@ -1,7 +1,5 @@
-import PocketBase from 'pocketbase'
-
-const pb = new PocketBase(import.meta.env.VITE_DATABASE_URL)
+import { pocketbase } from "./composables/usePocketbase.ts";
 
 export async function getAll(collection : string, page? : number, perPage? : number) {
-    return await pb.collection(collection).getList(page, perPage)
+    return await pocketbase.collection(collection).getList(page, perPage)
 }

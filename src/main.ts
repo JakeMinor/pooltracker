@@ -7,13 +7,11 @@ import tailwindPt from './pt/tailwind-pt.ts'
 import { createRouter, createWebHistory } from 'vue-router/auto'
 //@ts-ignore
 import App from './App.vue'
+import { router } from "./composables/useRouter.ts";
 
-const router = createRouter({
-    history: createWebHistory()
-})
 
 createApp(App)
-    .use(router)
     .use(createPinia())
+    .use(router)
     .use(PrimeVue, { unstyled: true, pt: tailwindPt })
     .mount('#app')
