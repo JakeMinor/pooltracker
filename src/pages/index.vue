@@ -1,11 +1,38 @@
 <template>
-  <div class="flex w-100">
-    <StatCard title="Stat" class="basis-3/5 pr-5">
-      I am a stat
-    </StatCard>
-    <StatCard title="Some Stat" class="basis-2/5">
-      I am another Stat :)
-    </StatCard>
+  <div class="w-100">
+    <div class="flex">
+      <StatCard title="General" class="basis-3/5 pr-5">
+        Total Wins, Total Loses, Win/Loss Ratio, 
+      </StatCard>
+      <StatCard title="Last Game" class="basis-2/5">
+        Last Game Stats
+      </StatCard>
+    </div>
+    <div class="pt-20">
+      <h2>Some More Stats</h2>
+      <div class="flex">
+        <StatCard class="basis-1/4 pr-5">
+          Balls Potted
+        </StatCard>
+        <StatCard  class="basis-1/4 pr-5">
+          Best Location
+        </StatCard>
+        <StatCard  class="basis-1/4 pr-5">
+          Best Ball Colour
+        </StatCard>
+        <StatCard class="basis-1/4">
+          ????
+        </StatCard>
+      </div>
+    </div>
+    <div class="flex pt-20">
+      <StatCard title="Lifetime Form" class="basis-3/5 pr-5">
+        Graph
+      </StatCard>
+      <StatCard title="Leagues" class="basis-2/5">
+        League Form?
+      </StatCard>
+    </div>
   </div>
 </template>
 
