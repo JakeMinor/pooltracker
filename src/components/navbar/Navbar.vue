@@ -1,7 +1,7 @@
 <template>
   <div class="h-lvh bg-gray-800 shadow-lg w-28 flex flex-col">
     <div class="m-auto pt-5">
-      <Icon icon="emojione-monotone:pool-8-ball" height="70px" class="mx-auto text-white" />
+      <Logo class="mx-auto"/>
     </div>
 
     <div class="py-24 flex flex-col justify-around basis-full">
