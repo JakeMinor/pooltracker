@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import { createPinia } from "pinia";
-import './style.css'
+import './styles/_main.scss'
 import PrimeVue from 'primevue/config'
 import 'primevue/resources/themes/aura-light-green/theme.css'
 //@ts-ignore
