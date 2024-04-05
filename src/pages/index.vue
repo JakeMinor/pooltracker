@@ -38,13 +38,10 @@
 </template>
 
 <script setup lang="ts">
-import { getAll } from "../api.ts";
-import {onMounted, ref} from "vue";
 import StatCard from "../components/StatCard.vue";
+import { definePage } from "vue-router/auto";
 
-const users = ref<any>()
-
-onMounted(async () => {
-  users.value = await getAll("test")
+definePage({
+  meta: { title: "Dashboard" }
 })
 </script>

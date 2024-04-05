@@ -8,17 +8,20 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Button: typeof import('primevue/button')['default']
+    DataView: typeof import('primevue/dataview')['default']
     Image: typeof import('primevue/image')['default']
     Layout: typeof import('./src/components/Layout.vue')['default']
     Logo: typeof import('./src/components/navbar/Logo.vue')['default']
+    Menubar: typeof import('primevue/menubar')['default']
     Navbar: typeof import('./src/components/navbar/Navbar.vue')['default']
     NavbarIcon: typeof import('./src/components/navbar/NavbarIcon.vue')['default']
     ProfileDropdown: typeof import('./src/components/user-details/ProfileDropdown.vue')['default']
+    RegisterGame: typeof import('./src/components/game/RegisterGame.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Sidebar: typeof import('primevue/sidebar')['default']
     StatCard: typeof import('./src/components/StatCard.vue')['default']
     UserDetails: typeof import('./src/components/UserDetails.vue')['default']
-    UserNames: typeof import('./src/components/user-details/UserNames.vue')['default']
     UsersName: typeof import('./src/components/user-details/UsersName.vue')['default']
   }
 }
