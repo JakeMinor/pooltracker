@@ -1,8 +1,8 @@
 import { createApp } from 'vue'
 import { createPinia } from "pinia";
-import './style.css'
+import './styles/_main.scss'
 import PrimeVue from 'primevue/config'
-import tailwindPt from './pt/tailwind-pt.ts'
+import 'primevue/resources/themes/aura-light-green/theme.css'
 //@ts-ignore
 import { createRouter, createWebHistory } from 'vue-router/auto'
 //@ts-ignore
@@ -13,5 +13,5 @@ import { router } from "./composables/useRouter.ts";
 createApp(App)
     .use(createPinia())
     .use(router)
-    .use(PrimeVue, { unstyled: true, pt: tailwindPt })
+    .use(PrimeVue)
     .mount('#app')
