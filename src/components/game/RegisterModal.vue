@@ -2,7 +2,7 @@
   <Dialog v-model:visible="visible" modal header="Register game" :style="{ width: '25rem' }" >
     <span class="p-text-secondary mb-5">Register your game against your opponent!</span>
     <div>
-      <div class="mt-5">
+      <div class="mt-7">
         <h2 class="font-semibold">Setting</h2>
         <div class="flex flex-col w-full">
           <FormField label="Location" class="mt-6">
@@ -14,7 +14,7 @@
         </div>
       </div>
 
-      <div class="mt-5">
+      <div class="mt-8">
         <h2 class="font-semibold">Final Score</h2>
         <FormField label="Opponent" class="mt-6 w-full">
           <Dropdown class="w-full"/>
@@ -29,8 +29,8 @@
           </FormField>
         </div>
       </div>
-
-      <div class="flex mt-8">
+      <Divider class="mt-8" />
+      <div class="flex">
         <Button class="ml-auto mr-2" type="button" label="Cancel" severity="secondary" @click="visible = false"></Button>
         <Button class="bg-lime-300 border-lime-300 text-gray-800" type="button" label="Save" @click="visible = false"></Button>
       </div>
