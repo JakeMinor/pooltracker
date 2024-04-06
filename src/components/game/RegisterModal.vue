@@ -15,7 +15,7 @@
       </div>
 
       <div class="mt-8">
-        <h2 class="font-semibold">Final Score</h2>
+        <h2 class="font-semibold">Game Details</h2>
         <FormField label="Opponent" class="mt-6 w-full">
           <Dropdown class="w-full"/>
         </FormField>
