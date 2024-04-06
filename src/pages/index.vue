@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import StatCard from "../components/StatCard.vue";
+import StatCard from "../components/utility/StatCard.vue";
 import { definePage } from "vue-router/auto";
 
 definePage({

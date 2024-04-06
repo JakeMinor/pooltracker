@@ -23,8 +23,7 @@ export const useUserStore = defineStore('user', {
         async authenticate() {
             const authData = await pocketbase.collection('users').authWithOAuth2({ provider: 'google' });
             await pocketbase.collection("users").update(authData.record.id, { name: authData.meta?.name, avatar: authData.meta?.avatarUrl })
-            
-            
+
             this.authenticated = pocketbase.authStore.isValid
             this.user = { email: authData.meta?.email, name: authData.meta?.name, avatarUrl: authData.meta?.avatarUrl }
         },

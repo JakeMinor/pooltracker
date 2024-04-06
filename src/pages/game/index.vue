@@ -1,21 +1,22 @@
 ﻿<template>
   <div>
-    <Button label="Register your game" class="bg-lime-300 border-lime-300 text-gray-800" @click="visible = true"/>
+    <Button label="Register your game" class="bg-lime-300 border-lime-300 text-gray-800" @click="registerGameModalVisible = !registerGameModalVisible"/>
     <DataView>
-      
+
     </DataView>
-    <RegisterGame v-model="visible"/>
+    <RegisterModal v-model="registerGameModalVisible" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { definePage } from "vue-router/auto";
-import { ref } from "vue";
-import RegisterGame from "../../components/game/RegisterGame.vue";
+import RegisterModal from "../../components/game/RegisterModal.vue";
+import {ref} from "vue";
 
 definePage({
   meta: { title: "Games" }
 })
 
-const visible = ref<boolean>(false)
+const registerGameModalVisible = ref<boolean>(false)
+
 </script>
