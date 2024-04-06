@@ -1,5 +1,5 @@
 <template>
-  <Dialog v-model:visible="visible" modal header="Register game" :style="{ width: '25rem' }" >
+  <Dialog v-model:visible="visible" modal header="Register game" :style="{ width: '25rem' }" :closable="false">
     <span class="p-text-secondary mb-5">Register your game against your opponent!</span>
     <div>
       <div class="mt-7">
