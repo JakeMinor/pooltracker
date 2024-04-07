@@ -21,7 +21,7 @@
           Best Ball Colour
         </StatCard>
         <StatCard class="basis-1/4">
-          Nemisis
+          Nemesis
           Best Friend
         </StatCard>
       </div>

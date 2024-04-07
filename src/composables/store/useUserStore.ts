@@ -1,11 +1,8 @@
 import { defineStore } from "pinia";
 import { pocketbase } from "../usePocketbase.ts";
+import {User} from "../../types/types.ts";
 
-export interface User {
-    name: string,
-    email: string,
-    avatarUrl: string
-}
+
 
 interface State {
     user: User | null,
@@ -25,7 +22,7 @@ export const useUserStore = defineStore('user', {
             await pocketbase.collection("users").update(authData.record.id, { name: authData.meta?.name, avatar: authData.meta?.avatarUrl })
 
             this.authenticated = pocketbase.authStore.isValid
-            this.user = { email: authData.meta?.email, name: authData.meta?.name, avatarUrl: authData.meta?.avatarUrl }
+            this.user = { id: authData.record.id, email: authData.meta?.email, name: authData.meta?.name, avatarUrl: authData.meta?.avatarUrl }
         },
         signOut() {
             pocketbase.authStore.clear();
