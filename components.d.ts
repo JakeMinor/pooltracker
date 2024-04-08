@@ -13,6 +13,7 @@ declare module 'vue' {
     Divider: typeof import('primevue/divider')['default']
     Dropdown: typeof import('primevue/dropdown')['default']
     FormField: typeof import('./src/components/utility/FormField.vue')['default']
+    GameDetails: typeof import('./src/components/game/GameDetails.vue')['default']
     Image: typeof import('primevue/image')['default']
     InputNumber: typeof import('primevue/inputnumber')['default']
     InputText: typeof import('primevue/inputtext')['default']

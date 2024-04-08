@@ -45,6 +45,7 @@ import {computed, reactive} from "vue";
 import {useUserStore} from "../../composables/store/useUserStore.ts";
 import {Game, Location, User} from "../../types/types.ts";
 import {useReferenceDataStore} from "../../composables/store/useReferenceDataStore.ts";
+import {useGameStore} from "../../composables/store/useGameStore.ts";
 
 const { user } = useUserStore()
 const { getLocations, getUsers } = useReferenceDataStore()
@@ -82,9 +83,9 @@ const registerGame = async () => {
     player2Score: game.player2Score
   } as unknown as Game
 
-  console.log(gameToInsert)
-
   await createGame(gameToInsert)
+
+  await useGameStore().getGames()
 
   visible.value = false
 }
