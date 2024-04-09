@@ -5,14 +5,19 @@
     </div>
 
     <div class="py-24 flex flex-col justify-around basis-full">
-      <NavbarIcon route="/" icon="ion:home"/>
-      <NavbarIcon route="/game" icon="game-icons:pool-table-corner"/>
-      <NavbarIcon route="/leagues" icon="ic:round-leaderboard"/>
-      <NavbarIcon route="/profile" icon="ion:person"/>
+      <NavbarIcon route="/" icon="game-icons:pool-table-corner"/>
+      <NavbarIcon route="/tournament" icon="iconoir:tournament"/>
+      <NavbarIcon route="/leagues" icon="ic:round-leaderboard" v-if="isAuthenticated"/>
+      <NavbarIcon route="/locations" icon="ph:map-pin-fill"/>
+      <NavbarIcon route="/stats" icon="ion:person" v-if="isAuthenticated"/>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
   import NavbarIcon from "./NavbarIcon.vue";
+  import {useUserStore} from "../../composables/store/useUserStore.ts";
+  import {storeToRefs} from "pinia";
+
+  const { isAuthenticated } = storeToRefs(useUserStore())
 </script>

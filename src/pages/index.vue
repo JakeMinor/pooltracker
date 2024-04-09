@@ -1,48 +1,31 @@
 <template>
-  <div class="w-100">
-    <div class="flex">
-      <StatCard title="General" class="basis-3/5 pr-5">
-        Total Wins, Total Loses, Win/Loss Ratio, Total Balls potted, Total Games played
-      </StatCard>
-      <StatCard title="Last Game" class="basis-2/5">
-        Last Game Stats
-      </StatCard>
-    </div>
-    <div class="pt-20">
-      <h2 class="text-lg font-semibold pb-2">Some More Stats</h2>
-      <div class="flex">
-        <StatCard class="basis-1/4 pr-5">
-          Average balls potted per game
-        </StatCard>
-        <StatCard  class="basis-1/4 pr-5">
-          Best Location
-        </StatCard>
-        <StatCard  class="basis-1/4 pr-5">
-          Best Ball Colour
-        </StatCard>
-        <StatCard class="basis-1/4">
-          Nemesis
-          Best Friend
-        </StatCard>
-      </div>
-    </div>
-    <div class="flex pt-20">
-      <StatCard title="Current Form" class="basis-3/5 pr-5">
-        Current Form
-      </StatCard>
-      <StatCard title="Leagues" class="basis-2/5">
-        League table? All users leagues?
-      </StatCard>
-    </div>
+  <div>
+    <Button label="Register your game" class="bg-lime-300 border-lime-300 text-gray-800" @click="registerGameModalVisible = !registerGameModalVisible"/>
+    <DataView :value="allGames">
+      <template #list="slotProps">
+        <div v-for="(item, index) in slotProps.items" :key="index">
+          <GameDetails :game="item" />
+        </div>
+      </template>
+    </DataView>
+    <RegisterModal v-model="registerGameModalVisible" />
   </div>
 </template>
 
 <script setup lang="ts">
-import StatCard from "../components/utility/StatCard.vue";
 import { definePage } from "vue-router/auto";
+import RegisterModal from "../components/game/RegisterModal.vue";
+import { useGameStore } from "../composables/store/useGameStore.ts";
+import {onMounted, ref} from "vue";
+import GameDetails from "../components/game/GameDetails.vue";
+
+const { getGames, allGames } = useGameStore()
 
 definePage({
-  meta: { title: "Dashboard" }
+  meta: { title: "Games" }
 })
 
+const registerGameModalVisible = ref<boolean>(false)
+
+onMounted(async () => await getGames())
 </script>

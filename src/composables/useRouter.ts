@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router/auto";
+import {createRouter, createWebHistory } from "vue-router/auto";
 import {useReferenceDataStore} from "./store/useReferenceDataStore.ts";
 
 const router = createRouter({
