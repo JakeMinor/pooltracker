@@ -21,7 +21,7 @@
           Best Ball Colour
         </StatCard>
         <StatCard class="basis-1/4">
-          Nemisis
+          Nemesis
           Best Friend
         </StatCard>
       </div>
@@ -38,13 +38,5 @@
 </template>
 
 <script setup lang="ts">
-import { getAll } from "../api.ts";
-import {onMounted, ref} from "vue";
 import StatCard from "../components/StatCard.vue";
-
-const users = ref<any>()
-
-onMounted(async () => {
-  users.value = await getAll("test")
-})
 </script>
