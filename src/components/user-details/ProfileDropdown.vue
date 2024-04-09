@@ -10,13 +10,11 @@
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from "../../composables/store/useUserStore.ts";
+import { signOut } from "../../api.ts"
 
 interface ProfileDropdownProps {
   dropdownOpen: boolean
 }
-
-const { signOut } = useUserStore()
 
 const { dropdownOpen } = defineProps<ProfileDropdownProps>()
 

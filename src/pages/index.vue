@@ -44,4 +44,5 @@ import { definePage } from "vue-router/auto";
 definePage({
   meta: { title: "Dashboard" }
 })
+
 </script>

@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router/auto";
-import { useUserStore } from "./store/useUserStore.ts";
 import {useReferenceDataStore} from "./store/useReferenceDataStore.ts";
 
 const router = createRouter({
@@ -7,12 +6,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async () => {
-    const { isAuthenticated, authenticate } = useUserStore()
     const { $state, setLocations, setUsers } = useReferenceDataStore()
-
-    if(!isAuthenticated) {
-        await authenticate()
-    }
 
     if($state.locations.length === 0) {
         await setLocations()
@@ -22,5 +16,4 @@ router.beforeEach(async () => {
         await setUsers()
     }
 })
-
 export { router }
