@@ -9,6 +9,7 @@ interface State {
 export const useUserStore = defineStore('user', {
     state: () : State => ({ user: null, authenticated: false }),
     getters: {
+      id: (state) : string => state.user?.id ?? '',
       name: (state) : string => state.user?.name ?? '',
       avatarUrl: (state) : string => state.user?.avatarUrl ?? '',
       isAuthenticated: (state) : boolean => state.authenticated

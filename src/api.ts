@@ -3,11 +3,15 @@ import {useUserStore} from "./composables/store/useUserStore.ts";
 import {Game, User} from "./types/types.ts";
 
 export async function getAll(collection : string, page? : number, perPage? : number) {
-    return await pocketbase.collection(collection).getList(page, perPage)
+    return (await pocketbase.collection(collection).getList(page, perPage)).items
 }
 
 export async function createGame(item : Game) {
-    await pocketbase.collection("games").create(item)
+    try {
+        await pocketbase.collection("games").create(item)
+    } catch(e){
+        console.log(e)
+    }
 }
 
 

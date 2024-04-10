@@ -1,6 +1,6 @@
-import {defineStore} from "pinia";
+import {defineStore, storeToRefs} from "pinia";
 import {Game } from "../../types/types.ts";
-import {pocketbase} from "../usePocketbase.ts";
+import {useUserStore} from "./useUserStore.ts";
 
 interface State {
     games: Game[]
@@ -10,10 +10,15 @@ export const useGameStore = defineStore('games', {
     state: () : State => ({ games: [] as Game[] }),
     getters: {
         allGames: state => state.games,
+        usersGames: (state) => {
+            const { id} = storeToRefs(useUserStore())
+
+            return state.games.filter(game => game.player1!.id === id.value || game.player2!.id === id.value)
+        }
     },
     actions: {
-        async getGames() {
-            this.$state.games = (await pocketbase.collection('games').getList()).items as unknown as Game[]
-        },
+        setGames(games : Game[]) {
+            this.games = games
+        }
     }
 })

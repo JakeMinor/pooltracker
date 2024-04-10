@@ -16,8 +16,11 @@
 
       <div class="mt-8">
         <h2 class="font-semibold">Game Details</h2>
-        <FormField label="Opponent" class="mt-6 w-full">
-          <Dropdown class="w-full" v-model="game.player2" :options="opponents" option-label="name"/>
+        <FormField label="Player 1" class="mt-6 w-full" v-if="!isAuthenticated">
+          <Dropdown class="w-full" editable v-model="game.player1" :options="opponents" option-label="name"/>
+        </FormField>
+        <FormField :label="isAuthenticated ? 'Opponent' : 'Player 2'" class="mt-7 w-full">
+          <Dropdown class="w-full" editable v-model="game.player2" :options="opponents" option-label="name"/>
         </FormField>
         <div class="flex mt-8">
           <FormField label="Home" class="mr-5">
@@ -41,51 +44,66 @@
 <script setup lang="ts">
 import { createGame } from "../../api.ts";
 import FormField from "../utility/FormField.vue";
-import {computed, reactive} from "vue";
+import {computed, ref} from "vue";
 import {useUserStore} from "../../composables/store/useUserStore.ts";
 import {Game, Location, User} from "../../types/types.ts";
 import {useReferenceDataStore} from "../../composables/store/useReferenceDataStore.ts";
 import {useGameStore} from "../../composables/store/useGameStore.ts";
+import {storeToRefs} from "pinia";
 
-const { user } = useUserStore()
+const { id, user, isAuthenticated } = storeToRefs(useUserStore())
+const { setGames, allGames } = useGameStore()
 const { getLocations, getUsers } = useReferenceDataStore()
 
-const opponents = getUsers?.filter((opponent) => opponent.id !== user?.id)
+const opponents = getUsers?.filter((opponent) => opponent.id !== id.value)
 
 const visible = defineModel<boolean>()
 
 interface GameDetails {
   location: Location | null,
-  player2: User | null,
+  player1: User | string |null,
+  player2: User | string | null,
   player1BallColour: string | null,
   player1Score: number | null,
   player2Score: number | null,
 }
 
-const game = reactive<GameDetails>({
+const game = ref<GameDetails>({
   location: null,
+  player1: null,
   player2: null,
   player1BallColour: null,
   player1Score: null,
   player2Score: null
 })
 
-const ballColours = computed<string[]>(() => game.location !== null ? getLocations.find((loc) => loc.id === game.location?.id)?.ballColours : [])
+const ballColours = computed<string[]>(() => game.value.location !== null ? getLocations.find((loc) => loc.id === game.value.location?.id)?.ballColours : [])
 
 const registerGame = async () => {
   const gameToInsert = {
-    player1: user!.id,
-    player2: game.player2!.id,
-    player1BallColour: game.player1BallColour,
-    player2BallColour: game.location!.ballColours.find(colour => colour !== game.player1BallColour),
-    location: game.location!.id,
-    player1Score: game.player1Score,
-    player2Score: game.player2Score
-  } as unknown as Game
+    player1: isAuthenticated.value ? user.value : game.value.player1,
+    player2: game.value.player2,
+    player1BallColour: game.value.player1BallColour,
+    player2BallColour: game.value.location!.ballColours.find(colour => colour !== game.value.player1BallColour),
+    location: game.value.location,
+    player1Score: game.value.player1Score,
+    player2Score: game.value.player2Score
+  } as Game
 
-  await createGame(gameToInsert)
+  if(isAuthenticated.value) {
+    await createGame(gameToInsert)
+  }
 
-  await useGameStore().getGames()
+  setGames([...allGames, gameToInsert])
+
+  game.value = {
+    location: null,
+    player1: null,
+    player2: null,
+    player1BallColour: null,
+    player1Score: null,
+    player2Score: null
+  }
 
   visible.value = false
 }
