@@ -4,7 +4,7 @@
       <slot :id="label" />
       <label :for="label">{{ label }}</label>
     </FloatLabel>
-    <span class="text-xs mt-2 ml-3 text-red-400">{{  error }}</span>
+    <span class="text-xs mt-2 ml-3 text-red-400">{{ error }}</span>
   </div>
 
 </template>
@@ -14,7 +14,7 @@ import FloatLabel from 'primevue/floatlabel';
 
 interface FormFieldProps {
   label: string,
-  error: string
+  error?: string | undefined
 }
 
 const { label } = defineProps<FormFieldProps>()

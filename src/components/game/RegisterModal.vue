@@ -10,7 +10,7 @@
                       :invalid="errors.location"/>
           </FormField>
           <FormField label="Colour of Ball" class="mt-7" :error="errors.player1BallColour">
-            <Dropdown class="w-full" v-model="player1BallColour" :disabled="location === null" :options="ballColours"
+            <Dropdown class="w-full" v-model="player1BallColour" :disabled="location === undefined" :options="ballColours"
                       :invalid="errors.player1BallColour"/>
           </FormField>
         </div>
@@ -28,11 +28,11 @@
         </FormField>
         <div class="flex mt-8">
           <FormField label="Home" class="mr-5" :error="errors.player1Score">
-            <InputNumber v-model="player1Score" input-class="w-1/2" :invalid="errors.player1Score" :min="0" :max="8"/>
+            <InputNumber v-model="player1Score" input-class="w-1/2" :invalid="errors.player1Score" :min="0" />
           </FormField>
           <span class="text-xl mt-1">:</span>
           <FormField label="Away" class="ml-5" :error="errors.player2Score">
-            <InputNumber v-model="player2Score" input-class="w-1/2" :invalid="errors.player2Score" :min="0" :max="8"/>
+            <InputNumber v-model="player2Score" input-class="w-1/2" :invalid="errors.player2Score" :min="0" />
           </FormField>
         </div>
       </div>
@@ -91,7 +91,7 @@ const [player2Score] = defineField('player2Score')
 const ballColours = computed<string[]>(() => location.value !== null ? getLocations.find((loc) => loc.id === location.value?.id)?.ballColours : [])
 
 const registerGame = async () => {
-  if(await validate()){
+  if(!(await validate())){
     return false;
   }
   
