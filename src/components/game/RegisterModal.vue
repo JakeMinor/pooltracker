@@ -28,14 +28,15 @@
         </FormField>
         <div class="flex mt-8">
           <FormField label="Home" class="mr-5" :error="errors.player1Score">
-            <InputNumber v-model="player1Score" input-class="w-1/2" :invalid="errors.player1Score" :min="0" />
+            <InputNumber v-model="player1Score" input-class="w-1/2" :invalid="errors.player1Score || !validTotal" :min="0" />
           </FormField>
           <span class="text-xl mt-1">:</span>
           <FormField label="Away" class="ml-5" :error="errors.player2Score">
-            <InputNumber v-model="player2Score" input-class="w-1/2" :invalid="errors.player2Score" :min="0" />
+            <InputNumber v-model="player2Score" input-class="w-1/2" :invalid="errors.player2Score || !validTotal" :min="0" />
           </FormField>
         </div>
       </div>
+      <div v-if="!validTotal" class="text-xs mt-2 text-center text-red-400">Score must be less than 15</div>
       <Divider class="mt-8" />
       <div class="flex">
         <Button class="ml-auto mr-2" type="button" label="Cancel" severity="secondary" @click="visible = false"></Button>
@@ -50,7 +51,7 @@ import { createGame } from "../../api.ts";
 import FormField from "../utility/FormField.vue";
 import {computed} from "vue";
 import {useUserStore} from "../../composables/store/useUserStore.ts";
-import {Game, Location, User} from "../../types/types.ts";
+import {Game, Location} from "../../types/types.ts";
 import {useReferenceDataStore} from "../../composables/store/useReferenceDataStore.ts";
 import {useGameStore} from "../../composables/store/useGameStore.ts";
 import { useForm } from "vee-validate";
@@ -67,14 +68,13 @@ const visible = defineModel<boolean>()
 
 const validationSchema = toTypedSchema(
     z.object({
-      player1: z.custom<User | string>(),
-      player2: z.custom<User | string>(),
-      location: z.custom<Location>(),
+      player1: z.string().or(z.object({ id: z.string(), name: z.string(), avatarUrl: z.string(), email: z.string()})),
+      player2: z.string().or(z.object({ id: z.string(), name: z.string(), avatarUrl: z.string(), email: z.string()})),
+      location: z.string().or(z.object({ id: z.string(), name: z.string(), ballColours: z.array(z.string())})),
       player1BallColour: z.string(),
       player1Score: z.number({ required_error: "Required", invalid_type_error: "Required"}).lte(8, { message: "Score should be between 0-8" }).gte(0, { message: "Score should be between 0-8" }),
       player2Score: z.number({ required_error: "Required", invalid_type_error: "Required" }).lte(8, { message: "Score should be between 0-8"}).gte(0, { message: "Score should be between 0-8" })
     })  .required()
-        .refine((obj) => obj.player1Score + obj.player2Score < 16)
 )
 
 const { errors, defineField, validate } = useForm({
@@ -89,9 +89,15 @@ const [player1Score] = defineField('player1Score')
 const [player2Score] = defineField('player2Score')
 
 const ballColours = computed<string[]>(() => location.value !== null ? getLocations.find((loc) => loc.id === location.value?.id)?.ballColours : [])
+const validTotal = computed<boolean>(() => (player1Score.value ?? 0) + (player2Score.value ?? 0) <= 15)
+
 
 const registerGame = async () => {
-  if(!(await validate())){
+
+  console.log("validTotal", validTotal.value)
+  console.log("Validate", (await validate()).valid)
+
+  if(!((await validate()).valid || validTotal.value)){
     return false;
   }
   
@@ -99,7 +105,7 @@ const registerGame = async () => {
     player1: isAuthenticated.value ? user.value : player1.value,
     player2: player2.value,
     player1BallColour: player1BallColour.value,
-    player2BallColour: location.value!.ballColours!.find(colour => colour !== player1BallColour.value),
+    player2BallColour: (location.value! as Location).ballColours!.find(colour => colour !== player1BallColour.value),
     location: location.value,
     player1Score: player1Score.value,
     player2Score: player2Score.value
