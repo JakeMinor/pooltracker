@@ -19,11 +19,11 @@
       <div class="mt-8">
         <h2 class="font-semibold">Game Details</h2>
         <FormField label="Player 1" class="mt-6 w-full" v-if="!isAuthenticated" :error="errors.player1">
-          <Dropdown class="w-full" editable v-model="player1" :options="opponents" option-label="name"
+          <Dropdown class="w-full" editable v-model="player1" :options="player1Opponents" option-label="name"
                     :invalid="!!errors.player1"/>
         </FormField>
         <FormField :label="isAuthenticated ? 'Opponent' : 'Player 2'" class="mt-7 w-full" :error="errors.player2">
-          <Dropdown class="w-full" editable v-model="player2" :options="opponents" option-label="name"
+          <Dropdown class="w-full" editable v-model="player2" :options="player2Opponents" option-label="name"
                     :invalid="!!errors.player2"/>
         </FormField>
         <div class="flex mt-8">
@@ -63,7 +63,6 @@ const { id, user, isAuthenticated } = storeToRefs(useUserStore())
 const { setGames, allGames } = useGameStore()
 const { getLocations, getUsers } = useReferenceDataStore()
 
-const opponents = getUsers?.filter((opponent) => opponent.id !== id.value)
 const visible = defineModel<boolean>()
 
 const validationSchema = toTypedSchema(
@@ -99,6 +98,9 @@ const [location] = defineField('location')
 const [player1BallColour] = defineField('player1BallColour')
 const [player1Score] = defineField('player1Score')
 const [player2Score] = defineField('player2Score')
+
+const player1Opponents = computed(() => getUsers?.filter((opponent) => opponent.id !== id.value && opponent.id !== (player2.value as User)?.id))
+const player2Opponents = computed(() => getUsers?.filter((opponent) => opponent.id !== id.value && opponent.id !== (player1.value as User)?.id))
 
 const ballColours = computed<string[]>(() => location.value !== null ? getLocations.find((loc) => loc.id === location.value?.id)?.ballColours : [])
 
