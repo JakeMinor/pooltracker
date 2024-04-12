@@ -67,12 +67,12 @@ const visible = defineModel<boolean>()
 
 const validationSchema = toTypedSchema(
     object({
-      player1: mixed<User | string>().required(),
-      player2: mixed<User | string>().required(),
-      location: object<Location>().required(),
-      player1BallColour: string().required(),
-      player1Score: number().min(0, { message: "Score should be between 0-8" }).max(8, { message: "Score should be between 0-8" }).required(),
-      player2Score: number().min(0, { message: "Score should be between 0-8" }).max(8, { message: "Score should be between 0-8" }).required(),
+      player1: mixed<User | string>().required("Please select a player or type their name."),
+      player2: mixed<User | string>().required("Please select a player or type their name."),
+      location: object<Location>().required("Please select where the game was played."),
+      player1BallColour: string().required("Please choose your ball colour."),
+      player1Score: number().min(0, { message: "Score should be between 0-8" }).max(8, { message: "Score should be between 0-8" }).required("Please add the players score."),
+      player2Score: number().min(0, { message: "Score should be between 0-8" }).max(8, { message: "Score should be between 0-8" }).required("Please add the players score."),
       scoresValid: string()
     })
         .test({
@@ -80,7 +80,7 @@ const validationSchema = toTypedSchema(
           skipAbsent: true,
           test(value, context) {
             if((value.player2Score ?? 0) + (value.player1Score ?? 0) > 15) {
-              return context.createError({ path: "scoresValid", message: "Scores should total 15" })
+              return context.createError({ path: "scoresValid", message: "Too many balls! Scores should total 15." })
             }    
             return true
           }    
