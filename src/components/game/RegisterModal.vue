@@ -118,7 +118,7 @@ const registerGame = async () => {
 
   console.log(gameToInsert)
 
-  if(typeof player1.value === "object" || typeof player2.value === "object") {
+  if(gameToInsert.player1Id || gameToInsert.player2Id) {
     await createGame(gameToInsert)
   }
 
