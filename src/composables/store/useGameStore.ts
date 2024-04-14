@@ -1,4 +1,4 @@
-import {defineStore, storeToRefs} from "pinia";
+import {defineStore} from "pinia";
 import {Game } from "../../types/types.ts";
 import {useUserStore} from "./useUserStore.ts";
 
@@ -11,9 +11,9 @@ export const useGameStore = defineStore('games', {
     getters: {
         allGames: state => state.games,
         usersGames: (state) => {
-            const { id} = storeToRefs(useUserStore())
+            const { id} = useUserStore()
 
-            return state.games.filter(game => game.player1!.id === id.value || game.player2!.id === id.value)
+            return state.games.filter(game => game.player1Id === id || game.player2Id === id)
         }
     },
     actions: {

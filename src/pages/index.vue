@@ -16,15 +16,14 @@
 import { definePage } from "vue-router/auto";
 import RegisterModal from "../components/game/RegisterModal.vue";
 import { useGameStore } from "../composables/store/useGameStore.ts";
-import {onMounted, ref} from "vue";
+import {onBeforeMount, ref} from "vue";
 import GameDetails from "../components/game/GameDetails.vue";
 import {useUserStore} from "../composables/store/useUserStore.ts";
 import {storeToRefs} from "pinia";
-import { getAll } from "../api.ts";
+import {getAllGames} from "../api.ts";
 
 const store = useGameStore()
 const { allGames, usersGames } = storeToRefs(store)
-const { setGames } = store
 const { isAuthenticated } = storeToRefs(useUserStore())
 
 definePage({
@@ -33,13 +32,9 @@ definePage({
 
 const registerGameModalVisible = ref<boolean>(false)
 
-onMounted(async () => {
-  if(isAuthenticated.value) {
-    const games = await getAll("games")
-    setGames(games)
+onBeforeMount(async () => {
+  if(isAuthenticated.value){
+    await getAllGames()
   }
 })
-
-// TODO: Rework Register Game modal to accommodate for non-auth users
-// Should be able to select from a list or type depending if they have an account.
 </script>

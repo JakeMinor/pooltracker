@@ -100,15 +100,15 @@ const player2Opponents = computed(() => getUsers?.filter((opponent) => opponent.
 const ballColours = computed<string[]>(() => (location.value as Location)?.ballColours)
 
 const registerGame = async () => {
-  console.log((await validate()))
-
   if(!(await validate()).valid){
     return;
   }
   
   const gameToInsert = {
-    player1: isAuthenticated ? user.value : player1.value!.id,
-    player2: player2.value!.id,
+    player1Id: isAuthenticated.value ? user.value?.id : player1.value.id,
+    player1Name: typeof player1.value === "object" ? player1.value.name : player1.value,
+    player2Id: player2.value.id,
+    player2Name: typeof player2.value === "object" ? player2.value.name : player2.value,
     player1BallColour: player1BallColour.value,
     player2BallColour: (location.value! as Location).ballColours!.find(colour => colour !== player1BallColour.value),
     location: location.value!.id,
@@ -118,7 +118,7 @@ const registerGame = async () => {
 
   console.log(gameToInsert)
 
-  if(isAuthenticated) {
+  if(typeof player1.value === "object" || typeof player2.value === "object") {
     await createGame(gameToInsert)
   }
 

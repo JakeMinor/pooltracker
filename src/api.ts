@@ -1,9 +1,20 @@
 import { pocketbase } from "./composables/usePocketbase.ts";
 import {useUserStore} from "./composables/store/useUserStore.ts";
 import {Game, User} from "./types/types.ts";
+import {useGameStore} from "./composables/store/useGameStore.ts";
 
-export async function getAll(collection : string, page? : number, perPage? : number) {
+async function getAll(collection : string, page? : number, perPage? : number) {
     return (await pocketbase.collection(collection).getList(page, perPage)).items
+}
+
+export async function getAllGames() {
+    const { setGames } = useGameStore()
+    try {
+        const games = await getAll('games') as unknown as Game[]
+        setGames(games)
+    } catch(e){
+        console.log(e)
+    }
 }
 
 export async function createGame(item : Game) {
@@ -26,9 +37,11 @@ export async function authenticate() {
 }
 
 export async function signOut() {
+    const { setGames } = useGameStore()
     const { setUser, setAuthenticated } = useUserStore()
 
     pocketbase.authStore.clear();
     setUser(null)
+    setGames([])
     setAuthenticated(pocketbase.authStore.isValid)
 }
