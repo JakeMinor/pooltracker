@@ -106,7 +106,7 @@ const registerGame = async () => {
   
   const gameToInsert = {
     player1Id: isAuthenticated.value ? user.value?.id : player1.value.id,
-    player1Name: typeof player1.value === "object" ? player1.value.name : player1.value,
+    player1Name: isAuthenticated.value ? user.value?.name: typeof player1.value === "object" ? player1.value.name : player1.value,
     player2Id: player2.value.id,
     player2Name: typeof player2.value === "object" ? player2.value.name : player2.value,
     player1BallColour: player1BallColour.value,
