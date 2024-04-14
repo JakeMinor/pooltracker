@@ -11,7 +11,7 @@ export const useReferenceDataStore = defineStore('referenceData', {
     state: () : State => ({ locations: [] as Location[], users: [] as User[] }),
     getters: {
         getLocations: state => state.locations,
-        getUsers: state => state.users
+        getUsers: state => state.users,
     },
     actions: {
         async setLocations() {
@@ -20,5 +20,14 @@ export const useReferenceDataStore = defineStore('referenceData', {
         async setUsers() {
             this.$state.users = (await pocketbase.collection('users').getList()).items as unknown as User[]
         },
+        async setReferenceData() {
+            if(this.getUsers.length === 0){
+                await this.setUsers()
+            }
+
+            if(this.getLocations.length === 0){
+                await this.setLocations()
+            }
+        }
     }
 })

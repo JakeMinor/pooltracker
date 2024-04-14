@@ -16,10 +16,8 @@ import {useReferenceDataStore} from "./composables/store/useReferenceDataStore.t
 const title = computed<string>(() => router.currentRoute.value.meta.title)
 
 onMounted(async () => {
-  const dataStore = useReferenceDataStore()
+  const { setReferenceData } = useReferenceDataStore()
 
-  await dataStore.setLocations()
-  await dataStore.setUsers()
-
+  await setReferenceData()
 })
 </script>

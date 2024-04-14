@@ -39,8 +39,8 @@
       <div class="text-xs mt-1 text-center text-red-400">{{ errors.scoresValid }}</div>
       <Divider class="mt-8" />
       <div class="flex">
-        <Button class="ml-auto mr-2" type="button" label="Cancel" severity="secondary" @click="visible = false"></Button>
-        <Button class="bg-lime-300 border-lime-300 text-gray-800" type="button" label="Save" @click="registerGame"></Button>
+        <Button class="ml-auto mr-2" type="button" label="Cancel" severity="secondary" @click="visible = false" />
+        <Button class="bg-lime-300 border-lime-300 text-gray-800" type="button" label="Save" @click="registerGame" />
       </div>
     </div>
   </Dialog>
@@ -55,38 +55,33 @@ import {Game, Location, User} from "../../types/types.ts";
 import {useReferenceDataStore} from "../../composables/store/useReferenceDataStore.ts";
 import {useGameStore} from "../../composables/store/useGameStore.ts";
 import { useForm } from "vee-validate";
-import { toTypedSchema } from '@vee-validate/yup';
 import { string, number, mixed, object} from 'yup'
 import {storeToRefs} from "pinia";
 
-const { id, user, isAuthenticated } = storeToRefs(useUserStore())
+const { id, user,isAuthenticated } = storeToRefs(useUserStore())
 const { setGames, allGames } = useGameStore()
 const { getLocations, getUsers } = useReferenceDataStore()
 
 const visible = defineModel<boolean>()
 
-const validationSchema = toTypedSchema(
-    object({
-      player1: mixed<User | string>().required("Please select a player or type their name."),
-      player2: mixed<User | string>().required("Please select a player or type their name."),
-      location: object<Location>().required("Please select where the game was played."),
-      player1BallColour: string().required("Please choose your ball colour."),
-      player1Score: number().min(0, { message: "Score should be between 0-8" }).max(8, { message: "Score should be between 0-8" }).required("Please add the players score."),
-      player2Score: number().min(0, { message: "Score should be between 0-8" }).max(8, { message: "Score should be between 0-8" }).required("Please add the players score."),
-      scoresValid: string()
-    })
-        .test({
-          name: "total-of-scores",
-          skipAbsent: true,
-          test(value, context) {
-            if((value.player2Score ?? 0) + (value.player1Score ?? 0) > 15) {
-              return context.createError({ path: "scoresValid", message: "Too many balls! Scores should total 15." })
-            }    
-            return true
-          }    
-        })
-        
-)
+const validationSchema = computed(() => object().shape({
+  player2: mixed<User | string>().required("Please select a player or type their name."),
+  location: object<Location>().required("Please select where the game was played."),
+  player1BallColour: string().required("Please choose your ball colour."),
+  player1Score: number().min(0, { message: "Score should be between 0-8" }).max(8, { message: "Score should be between 0-8" }).required("Please add the players score."),
+  player2Score: number().min(0, { message: "Score should be between 0-8" }).max(8, { message: "Score should be between 0-8" }).required("Please add the players score."),
+  player1: isAuthenticated.value ? mixed<User | string>().optional() : mixed<User | string>().required(),
+  scoresValid: string()
+})
+    .test({
+      name: "total-of-scores",
+      skipAbsent: true,
+      test(value, context) {
+        if((value.player2Score ?? 0) + (value.player1Score ?? 0) > 15) {
+          return context.createError({ path: "scoresValid", message: "Too many balls! Scores should total 15." })
+        }
+        return true
+      }}))
 
 const { errors, defineField, validate } = useForm({
   validationSchema
@@ -102,24 +97,28 @@ const [player2Score] = defineField('player2Score')
 const player1Opponents = computed(() => getUsers?.filter((opponent) => opponent.id !== id.value && opponent.id !== (player2.value as User)?.id))
 const player2Opponents = computed(() => getUsers?.filter((opponent) => opponent.id !== id.value && opponent.id !== (player1.value as User)?.id))
 
-const ballColours = computed<string[]>(() => location.value !== null ? getLocations.find((loc) => loc.id === location.value?.id)?.ballColours : [])
+const ballColours = computed<string[]>(() => (location.value as Location)?.ballColours)
 
 const registerGame = async () => {
+  console.log((await validate()))
+
   if(!(await validate()).valid){
     return;
   }
   
   const gameToInsert = {
-    player1: isAuthenticated.value ? user.value : player1.value,
-    player2: player2.value,
+    player1: isAuthenticated ? user.value : player1.value!.id,
+    player2: player2.value!.id,
     player1BallColour: player1BallColour.value,
     player2BallColour: (location.value! as Location).ballColours!.find(colour => colour !== player1BallColour.value),
-    location: location.value,
+    location: location.value!.id,
     player1Score: player1Score.value,
     player2Score: player2Score.value
   } as Game
 
-  if(isAuthenticated.value) {
+  console.log(gameToInsert)
+
+  if(isAuthenticated) {
     await createGame(gameToInsert)
   }
 

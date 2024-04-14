@@ -18,7 +18,6 @@ declare module 'vue' {
     InputNumber: typeof import('primevue/inputnumber')['default']
     Layout: typeof import('./src/components/Layout.vue')['default']
     Logo: typeof import('./src/components/navbar/Logo.vue')['default']
-    MultiSelect: typeof import('primevue/multiselect')['default']
     Navbar: typeof import('./src/components/navbar/Navbar.vue')['default']
     NavbarIcon: typeof import('./src/components/navbar/NavbarIcon.vue')['default']
     ProfileDropdown: typeof import('./src/components/user-details/ProfileDropdown.vue')['default']
