@@ -1,5 +1,5 @@
 <template>
-  <div class="flex bg-gray-700 text-white rounded px-12 py-6 drop-shadow-xl text-2xl">
+  <div class="flex bg-gray-700 text-white px-12 py-6 drop-shadow-xl text-2xl">
     <div class="basis-1/2 flex" :class="{ 'text-gray-300': !isPlayer1Winner}">
       <div class="ml-auto mr-7 text-lg my-auto flex flex-row ">
         <Image :src="player1Avatar" v-if="player1Avatar" width="50px" class="mr-5"/>

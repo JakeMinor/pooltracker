@@ -2,9 +2,14 @@
   <div>
     <Button label="Register your game" class="bg-lime-300 border-lime-300 text-gray-800" @click="registerGameModalVisible = !registerGameModalVisible"/>
     <DataView :value="isAuthenticated ? usersGames : allGames" class="mt-6">
+      <template #empty>
+        <div class="flex bg-gray-700 text-white rounded px-12 py-6 drop-shadow-xl text-lg justify-center">
+          No games logged! Click the 'Register Your Game' to log a result.
+        </div>
+      </template>
       <template #list="slotProps">
         <div v-for="(item, index) in slotProps.items" :key="index">
-          <GameDetails :game="item" />
+          <GameDetails :game="item" :class="{ 'rounded-t': index === 0, 'rounded-b': index === (slotProps.items.length - 1) }"/>
         </div>
       </template>
     </DataView>
