@@ -26,15 +26,15 @@
         {{ getLocationName(game.location) }} | {{ dayjs(game.created).format('DD/MM/YYYY @ HH:mm:ss') }}
       </div>
     </div>
-    <Button label="action" class=" bg-transparent border-transparent text-white absolute right-12" @click="toggle">
+    <Button label="action" class=" bg-transparent border-transparent text-white absolute right-12" @click="toggle" v-if="!isGameVerified">
       <Icon icon="bi:three-dots-vertical" height="30px"/>
     </Button>
-    <OverlayPanel ref="op">
+    <OverlayPanel ref="op" v-if="!isGameVerified">
       <div class="flex flex-col">
-        <Button link class="text-gray-700 px-1">
+        <Button link class="text-gray-700 px-1" @click="acceptRequest(game, isUserPlayer1 ? 'player1' : 'player2')">
           <Icon icon="bi:check" height="25px"/>Accept
         </Button>
-        <Button link class="text-gray-700 px-1">
+        <Button link class="text-gray-700 px-1" @click="denyRequest(game.id)">
           <Icon icon="bi:x" height="25px"/>Deny
         </Button>
       </div>
@@ -48,13 +48,18 @@
 import { Game} from "../../types/types.ts";
 import {computed, ref} from "vue";
 import {getLocationName, getUser} from "../../utilities";
+import { useUserStore } from "../../composables/store/useUserStore.ts";
 import dayjs from 'dayjs'
 import OverlayPanel from 'primevue/overlaypanel'
 import { Icon } from "@iconify/vue";
+import {acceptRequest, denyRequest} from "../../api.ts";
+import {storeToRefs} from "pinia";
 
 interface GameDetailsProps {
   game: Game
 }
+
+const { id, verifiedGames } = storeToRefs(useUserStore())
 
 const { game } = defineProps<GameDetailsProps>()
 
@@ -64,8 +69,12 @@ const toggle = (event : Event) => {
   op.value.toggle(event)
 }
 
+const isGameVerified = computed<boolean>(() => verifiedGames.value.includes(game))
+
 const player1Avatar = computed<string | null>(() => game.player1Id ? getUser(game.player1Id)!.avatar : null)
 const player2Avatar = computed<string | null>(() => game.player2Id ? getUser(game.player2Id)!.avatar : null)
 
 const isPlayer1Winner = computed<boolean>(() => game.player1Score > game.player2Score)
+
+const isUserPlayer1 = computed<boolean>(() => game.player1Id === id.value)
 </script>

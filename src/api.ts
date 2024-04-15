@@ -25,6 +25,24 @@ export async function createGame(item : Game) {
     }
 }
 
+export async function denyRequest(gameId : string) {
+    try {
+        await pocketbase.collection("games").delete(gameId)
+    } catch(e){
+        console.log(e)
+    }
+}
+
+export async function acceptRequest(game : Game, acceptingPlayer : "player1" | "player2") {
+    try {
+        await pocketbase.collection("games").update(game.id, {
+            player1Verified: acceptingPlayer === "player1" ? true : game.player1Verified,
+            player2Verified: acceptingPlayer === "player2" ? true : game.player2Verified
+        })
+    } catch(e){
+        console.log(e)
+    }
+}
 
 export async function authenticate() {
     const { setUser, setAuthenticated } = useUserStore()
@@ -32,7 +50,7 @@ export async function authenticate() {
     const authData = await pocketbase.collection('users').authWithOAuth2({ provider: 'google' });
     await pocketbase.collection("users").update(authData.record.id, { name: authData.meta?.name, avatar: authData.meta?.avatarUrl })
 
-    setUser({ id: authData.record.id, email: authData.meta?.email, name: authData.meta?.name, avatarUrl: authData.meta?.avatarUrl} as User)
+    setUser({ id: authData.record.id, email: authData.meta?.email, name: authData.meta?.name, avatar: authData.meta?.avatarUrl} as User)
     setAuthenticated(pocketbase.authStore.isValid)
 }
 
