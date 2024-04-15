@@ -3,6 +3,7 @@ export type BallColour = "red" | "yellow" | "spots" | "stripes"
 export interface Game {
     id: string,
     location: string,
+    created: string,
 
     player1Id: string,
     player1Name: string,

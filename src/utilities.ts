@@ -5,3 +5,9 @@ export function getUser(uid : string) {
 
     return  getUsers.find(user => user.id === uid)
 }
+
+export function getLocationName(locId : string) {
+    const { getLocations } = useReferenceDataStore()
+
+    return  getLocations.find(loc => loc.id === locId)?.name ?? locId
+}

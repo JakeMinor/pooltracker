@@ -1,37 +1,68 @@
 <template>
-  <div class="flex bg-gray-700 text-white px-12 py-6 drop-shadow-xl text-2xl">
-    <div class="basis-1/2 flex" :class="{ 'text-gray-300': !isPlayer1Winner}">
-      <div class="ml-auto mr-7 text-lg my-auto flex flex-row ">
-        <Image :src="player1Avatar" v-if="player1Avatar" width="50px" class="mr-5"/>
-        <div class="my-auto">{{ game.player1Name }}</div>
-      </div>
-      <div class="mr-10 italic font-black my-auto" :class="{ 'text-lime-300': isPlayer1Winner}">
-        {{ game.player1Score }}
-      </div>
-    </div>
-    <span class="text-xs my-auto text-gray-300">VS</span>
-    <div class="basis-1/2 flex" :class="{ 'text-gray-300': isPlayer1Winner}" >
+  <div class="flex bg-gray-700 text-white ps-12 py-6 drop-shadow-xl text-2xl">
+    <div class="flex flex-col mx-auto ">
+      <div class="flex">
+        <div class="basis-1/2 flex" :class="{ 'text-gray-300': !isPlayer1Winner}">
+          <div class="ml-auto mr-7 text-lg my-auto flex flex-row ">
+            <Image :src="player1Avatar" v-if="player1Avatar" width="50px" class="mr-5"/>
+            <div class="my-auto">{{ game.player1Name }}</div>
+          </div>
+          <div class="mr-10 italic font-black my-auto" :class="{ 'text-lime-300': isPlayer1Winner}">
+            {{ game.player1Score }}
+          </div>
+        </div>
+        <span class="text-xs my-auto text-gray-300">VS</span>
+        <div class="basis-1/2 flex" :class="{ 'text-gray-300': isPlayer1Winner}" >
       <span class="ml-10 bold italic font-black my-auto" :class="{ 'text-lime-300': !isPlayer1Winner}">
         {{ game.player2Score }}
       </span>
-      <div class="ml-7 text-lg my-auto flex flex-row">
-        <div class="my-auto">{{ game.player2Name }}</div>
-        <Image :src="player2Avatar" v-if="player2Avatar" width="50px" class="ml-5"/>
+          <div class="ml-7 text-lg my-auto flex flex-row">
+            <div class="my-auto">{{ game.player2Name }}</div>
+            <Image :src="player2Avatar" v-if="player2Avatar" width="50px" class="ml-5"/>
+          </div>
+        </div>
+      </div>
+      <div class="mx-auto text-xs text-gray-300">
+        {{ getLocationName(game.location) }} | {{ dayjs(game.created).format('DD/MM/YYYY @ HH:mm:ss') }}
       </div>
     </div>
+    <Button label="action" class=" bg-transparent border-transparent text-white absolute right-12" @click="toggle">
+      <Icon icon="bi:three-dots-vertical" height="30px"/>
+    </Button>
+    <OverlayPanel ref="op">
+      <div class="flex flex-col">
+        <Button link class="text-gray-700 px-1">
+          <Icon icon="bi:check" height="25px"/>Accept
+        </Button>
+        <Button link class="text-gray-700 px-1">
+          <Icon icon="bi:x" height="25px"/>Deny
+        </Button>
+      </div>
+
+
+    </OverlayPanel>
   </div>
 </template>
 
 <script setup lang="ts">
 import { Game} from "../../types/types.ts";
-import {computed} from "vue";
-import {getUser} from "../../utilities";
+import {computed, ref} from "vue";
+import {getLocationName, getUser} from "../../utilities";
+import dayjs from 'dayjs'
+import OverlayPanel from 'primevue/overlaypanel'
+import { Icon } from "@iconify/vue";
 
 interface GameDetailsProps {
   game: Game
 }
 
 const { game } = defineProps<GameDetailsProps>()
+
+const op = ref()
+
+const toggle = (event : Event) => {
+  op.value.toggle(event)
+}
 
 const player1Avatar = computed<string | null>(() => game.player1Id ? getUser(game.player1Id)!.avatar : null)
 const player2Avatar = computed<string | null>(() => game.player2Id ? getUser(game.player2Id)!.avatar : null)

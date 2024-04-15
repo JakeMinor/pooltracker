@@ -45,8 +45,6 @@ import GameDetails from "../components/game/GameDetails.vue";
 import {useUserStore} from "../composables/store/useUserStore.ts";
 import {storeToRefs} from "pinia";
 import {getAllGames} from "../api.ts";
-import { TabPanelPassThroughMethodOptions} from "primevue/tabpanel";
-import {TabViewPassThroughMethodOptions} from "primevue/tabview";
 
 const store = useGameStore()
 const { allGames } = storeToRefs(store)

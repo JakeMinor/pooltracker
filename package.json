@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "dayjs": "^1.11.10",
     "pinia": "^2.1.7",
     "pocketbase": "^0.21.1",
     "primevue": "^3.50.0",
