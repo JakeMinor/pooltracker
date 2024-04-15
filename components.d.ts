@@ -25,6 +25,8 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     StatCard: typeof import('./src/components/utility/StatCard.vue')['default']
+    TabPanel: typeof import('primevue/tabpanel')['default']
+    TabView: typeof import('primevue/tabview')['default']
     UserDetails: typeof import('./src/components/UserDetails.vue')['default']
     UsersName: typeof import('./src/components/user-details/UsersName.vue')['default']
   }
