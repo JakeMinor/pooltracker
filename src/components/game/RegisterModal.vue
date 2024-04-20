@@ -104,7 +104,7 @@ const registerGame = async () => {
     return;
   }
   
-  const gameToInsert = {
+  let game = {
     player1Id: isAuthenticated.value ? user.value?.id : player1.value.id,
     player1Name: isAuthenticated.value ? user.value?.name: typeof player1.value === "object" ? player1.value.name : player1.value,
     player2Id: player2.value.id,
@@ -116,13 +116,13 @@ const registerGame = async () => {
     player2Score: player2Score.value
   } as Game
 
-  console.log(gameToInsert)
 
-  if(gameToInsert.player1Id || gameToInsert.player2Id) {
-    await createGame(gameToInsert)
+
+  if(game.player1Id || game.player2Id) {
+    game = await createGame(game) ?? game
   }
 
-  setGames([...allGames, gameToInsert])
+  setGames([...allGames, game])
   
   visible.value = false
 }
