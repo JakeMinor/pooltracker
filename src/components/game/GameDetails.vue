@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="mx-auto text-xs text-gray-300">
-        {{ getLocationName(game.location) }} | {{ dayjs(game.created).format('DD/MM/YYYY @ HH:mm:ss') }}  {{ hasApproved && !isGameVerified ? ' | Approved' : ''}}
+        {{ getLocationName(game.location) }} | {{ dayjs(game.created).format('DD/MM/YYYY @ HH:mm') }}  {{ hasApproved && !isGameVerified ? ' | Approved' : ''}}
       </div>
     </div>
     <Button label="action" class=" bg-transparent border-transparent text-white absolute right-12" @click="toggle" v-if="!hasApproved">
