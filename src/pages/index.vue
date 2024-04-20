@@ -25,7 +25,7 @@
           </template>
           <template #list="slotProps">
             <div v-for="(item, index) in slotProps.items" :key="index">
-              <GameDetails :game="item" :class="{ 'rounded-t': index === 0, 'rounded-b': index === (slotProps.items.length - 1) }"/>
+              <GameDetails :game="item" :key="item" :class="{ 'rounded-t': index === 0, 'rounded-b': index === (slotProps.items.length - 1) }"/>
             </div>
           </template>
         </DataView>

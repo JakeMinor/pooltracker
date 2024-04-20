@@ -31,10 +31,10 @@
     </Button>
     <OverlayPanel ref="op" v-if="!hasApproved">
       <div class="flex flex-col">
-        <Button link class="text-gray-700 px-1" @click="acceptRequest(game, isUserPlayer1 ? 'player1' : 'player2')">
+        <Button link class="text-gray-700 px-1 hover:bg-lime-300" @click="acceptRequest(game, isUserPlayer1 ? 'player1' : 'player2')">
           <Icon icon="bi:check" height="25px"/>Accept
         </Button>
-        <Button link class="text-gray-700 px-1" @click="denyRequest(game.id)">
+        <Button link class="text-gray-700 px-1 hover:bg-lime-300" @click="denyRequest(game.id)">
           <Icon icon="bi:x" height="25px"/>Deny
         </Button>
       </div>
