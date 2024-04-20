@@ -27,9 +27,5 @@ interface NavbarIconProps {
 
 const { route, icon } = defineProps<NavbarIconProps>()
 
-console.log(router.currentRoute.value)
-
-const isActive = computed<boolean>(() => router.currentRoute.value.path === route)
-
-
+const isActive = computed<boolean>(() => router.currentRoute.value.path == route)
 </script>

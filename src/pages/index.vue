@@ -1,42 +1,75 @@
 <template>
-  <div class="w-100">
-    <div class="flex">
-      <StatCard title="General" class="basis-3/5 pr-5">
-        Total Wins, Total Loses, Win/Loss Ratio, Total Balls potted, Total Games played
-      </StatCard>
-      <StatCard title="Last Game" class="basis-2/5">
-        Last Game Stats
-      </StatCard>
-    </div>
-    <div class="pt-20">
-      <h2 class="text-lg font-semibold pb-2">Some More Stats</h2>
-      <div class="flex">
-        <StatCard class="basis-1/4 pr-5">
-          Average balls potted per game
-        </StatCard>
-        <StatCard  class="basis-1/4 pr-5">
-          Best Location
-        </StatCard>
-        <StatCard  class="basis-1/4 pr-5">
-          Best Ball Colour
-        </StatCard>
-        <StatCard class="basis-1/4">
-          Nemesis
-          Best Friend
-        </StatCard>
-      </div>
-    </div>
-    <div class="flex pt-20">
-      <StatCard title="Current Form" class="basis-3/5 pr-5">
-        Current Form
-      </StatCard>
-      <StatCard title="Leagues" class="basis-2/5">
-        League table? All users leagues?
-      </StatCard>
-    </div>
+  <div>
+    <Button label="Register your game" class="bg-lime-300 border-lime-300 text-gray-800" @click="registerGameModalVisible = !registerGameModalVisible"/>
+    <TabView class="mt-5" :pt="tabViewPt">
+      <TabPanel header="Results" :pt="tabPanelPt">
+        <DataView :value="isAuthenticated ? verifiedGames : allGames" class="mt-6">
+          <template #empty>
+            <div class="flex bg-gray-700 text-white rounded px-12 py-6 drop-shadow-xl text-lg justify-center">
+              No verified games! Click the 'Register Your Game' button to log a result.
+            </div>
+          </template>
+          <template #list="slotProps">
+            <div v-for="(item, index) in slotProps.items" :key="index">
+              <GameDetails :game="item" :class="{ 'rounded-t': index === 0, 'rounded-b': index === (slotProps.items.length - 1) }"/>
+            </div>
+          </template>
+        </DataView>
+      </TabPanel>
+      <TabPanel header="Requests" v-if="isAuthenticated" :pt="tabPanelPt">
+        <DataView :value="gameRequests" class="mt-6">
+          <template #empty>
+            <div class="flex bg-gray-700 text-white rounded px-12 py-6 drop-shadow-xl text-lg justify-center">
+              No game requests! Register a game against another user by clicking 'Register Your Game' button.
+            </div>
+          </template>
+          <template #list="slotProps">
+            <div v-for="(item, index) in slotProps.items" :key="index">
+              <GameDetails :game="item" :key="item" :class="{ 'rounded-t': index === 0, 'rounded-b': index === (slotProps.items.length - 1) }"/>
+            </div>
+          </template>
+        </DataView>
+      </TabPanel>
+    </TabView>
+
+    <RegisterModal v-model="registerGameModalVisible" />
   </div>
 </template>
 
 <script setup lang="ts">
-import StatCard from "../components/StatCard.vue";
+import { definePage } from "vue-router/auto";
+import RegisterModal from "../components/game/RegisterModal.vue";
+import { useGameStore } from "../composables/store/useGameStore.ts";
+import {computed, onBeforeMount, ref} from "vue";
+import GameDetails from "../components/game/GameDetails.vue";
+import {useUserStore} from "../composables/store/useUserStore.ts";
+import {storeToRefs} from "pinia";
+import {getAllGames} from "../api.ts";
+
+const store = useGameStore()
+const { allGames } = storeToRefs(store)
+const { isAuthenticated, verifiedGames, gameRequests } = storeToRefs(useUserStore())
+
+definePage({
+  meta: { title: "Games" }
+})
+
+const registerGameModalVisible = ref<boolean>(false)
+
+const tabPanelPt = computed(() => ({
+  headerAction: () => ({
+      class: 'bg-gray-50 text-gray-700'
+  })
+}))
+
+const tabViewPt = computed(() => ({
+  nav: 'bg-gray-50',
+  panelContainer: 'bg-gray-50'
+}))
+
+onBeforeMount(async () => {
+  if(isAuthenticated.value){
+    await getAllGames()
+  }
+})
 </script>
