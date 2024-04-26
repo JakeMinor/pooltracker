@@ -20,7 +20,6 @@ declare module 'vue' {
     Logo: typeof import('./src/components/navbar/Logo.vue')['default']
     Navbar: typeof import('./src/components/navbar/Navbar.vue')['default']
     NavbarIcon: typeof import('./src/components/navbar/NavbarIcon.vue')['default']
-    OverlayPanel: typeof import('primevue/overlaypanel')['default']
     ProfileDropdown: typeof import('./src/components/user-details/ProfileDropdown.vue')['default']
     RegisterModal: typeof import('./src/components/game/RegisterModal.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

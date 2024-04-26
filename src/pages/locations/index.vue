@@ -6,6 +6,7 @@
 import {definePage} from "vue-router/auto";
 
 definePage({
-  name: "Places to play"
+  name: "Places to play",
+  meta: { title: "Places to play" }
 })
 </script>

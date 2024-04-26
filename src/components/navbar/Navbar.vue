@@ -6,8 +6,8 @@
 
     <div class="py-24 flex flex-col justify-around basis-full">
       <NavbarIcon route="/" icon="game-icons:pool-table-corner"/>
-      <NavbarIcon route="/tournament" icon="iconoir:tournament"/>
-      <NavbarIcon route="/leagues" icon="ic:round-leaderboard" v-if="isAuthenticated"/>
+      <NavbarIcon route="/tournament" icon="iconoir:tournament" v-if="isAuthenticated"/>
+      <NavbarIcon route="/leaderboard" icon="ic:round-leaderboard"/>
       <NavbarIcon route="/locations" icon="ph:map-pin-fill"/>
       <NavbarIcon route="/stats" icon="ion:person" v-if="isAuthenticated"/>
     </div>
