@@ -26,10 +26,10 @@
         {{ getLocationName(game.location) }} | {{ dayjs(game.created).format('DD/MM/YYYY @ HH:mm') }}  {{ hasApproved && !isGameVerified ? ' | Approved' : ''}}
       </div>
     </div>
-    <Button label="action" class=" bg-transparent border-transparent text-white absolute right-12" @click="toggle" v-if="!hasApproved">
+    <Button label="action" class=" bg-transparent border-transparent text-white absolute right-12" @click="toggle" v-if="!hasApproved && isAuthenticated">
       <Icon icon="bi:three-dots-vertical" height="30px"/>
     </Button>
-    <OverlayPanel ref="op" v-if="!hasApproved">
+    <OverlayPanel ref="op" v-if="!hasApproved && isAuthenticated">
       <div class="flex flex-col">
         <Button link class="text-gray-700 px-1 hover:bg-lime-300" @click="acceptRequest(game, isUserPlayer1 ? 'player1' : 'player2')">
           <Icon icon="bi:check" height="25px"/>Accept
@@ -57,7 +57,7 @@ interface GameDetailsProps {
   game: Game
 }
 
-const { id, verifiedGames } = storeToRefs(useUserStore())
+const { id, verifiedGames, isAuthenticated } = storeToRefs(useUserStore())
 
 const { game } = defineProps<GameDetailsProps>()
 
