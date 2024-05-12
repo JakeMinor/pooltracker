@@ -16,7 +16,7 @@
           Average balls potted per game = {{ isNaN(averageBallPottedPerGame) ? 0 : averageBallPottedPerGame }}
         </StatCard>
         <StatCard  class="basis-1/4 pr-5">
-          Best Location = {{ bestLocation }}
+          Best Location = {{ getLocationName(bestLocation) }}
         </StatCard>
         <StatCard  class="basis-1/4 pr-5">
           Best Ball Colour = {{ bestBallColour }}
@@ -46,6 +46,7 @@ import { definePage } from "vue-router/auto";
 import { storeToRefs } from "pinia";
 import { computed } from "vue";
 import dayjs from "dayjs";
+import {getLocationName} from "../../utilities.ts";
 
 const { verifiedGames, id } = storeToRefs(useUserStore())
 
