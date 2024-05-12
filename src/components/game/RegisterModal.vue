@@ -114,7 +114,7 @@ const registerGame = async () => {
     location: location.value!.id,
     player1Score: player1Score.value,
     player2Score: player2Score.value,
-    player1Verified: isAuthenticated.value && typeof player2.value === "object" ? true : !(typeof player1.value === "object"),
+    player1Verified: true,
     player2Verified: !(typeof player2.value === "object")
   } as Game
 
