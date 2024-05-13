@@ -1,7 +1,7 @@
 <template>
   <div class="w-100">
     <div class="flex">
-      <StatCard title="General" class="basis-3/5 pr-5 ">
+      <StatCard title="General" class="basis-3/5 pr-5">
         <div class="px-12 py-6">
           <div class="flex justify-around ">
             <div class="flex flex-col">
@@ -34,16 +34,20 @@
         </div>
       </StatCard>
       <StatCard title="Last Game" class="basis-2/5">
-        <div class="flex flex-col">
-          <span>Opponent: {{ id === lastGame.player1Id ? lastGame.player2Name : lastGame.player1Name }}</span>
-          <div class="flex flex-col">
-            Score
-            <div class="flex">
-              <BallColour class="me-2" :ball-colour="lastGame.player1BallColour"/> <span class="me-2">{{ lastGame.player1Score }}</span> : <span class="ms-2">{{ lastGame.player2Score }}</span><BallColour class="ms-2" :ball-colour="lastGame.player2BallColour"/>
+        <div class="flex overflow-hidden rounded-l-lg">
+          <img class="h-44 -translate-x-16" alt="Photo by Klara Kulikova on Unsplash" src="https://images.unsplash.com/photo-1575553939928-d03b21323afe?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
+          <div class="-translate-x-16 p-6">
+            <span>Opponent: {{ id === lastGame.player1Id ? lastGame.player2Name : lastGame.player1Name }}</span>
+            <div class="flex flex-col">
+              Score
+              <div class="flex">
+                <BallColour class="me-2" :ball-colour="lastGame.player1BallColour"/> <span class="me-2">{{ lastGame.player1Score }}</span> : <span class="ms-2">{{ lastGame.player2Score }}</span><BallColour class="ms-2" :ball-colour="lastGame.player2BallColour"/>
+              </div>
             </div>
+            {{ dayjs(lastGame.created).format('DD/MM/YYYY @ HH:mm') }}
+            {{ getLocationName(lastGame.location)}}
           </div>
-          {{ dayjs(lastGame.created).format('DD/MM/YYYY @ HH:mm') }}
-          {{ getLocationName(lastGame.location)}}
+ 
         </div>
       </StatCard>
       </div>
