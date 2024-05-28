@@ -1,7 +1,7 @@
 <template>
   <div class="w-100">
     <div class="flex">
-      <StatCard title="General" class="basis-3/5 pr-5 h-10">
+      <StatCard title="General" class="basis-3/5 pr-5">
         <div class="px-12 py-6">
           <div class="flex justify-around">
             <div class="flex flex-col">
@@ -62,27 +62,50 @@
       </StatCard>
       </div>
       <div class="pt-20">
-        <h2 class="text-lg font-semibold pb-2">Some More Stats</h2>
+        <h2 class="text-lg font-semibold pb-2">Gameplay Stats</h2>
         <div class="flex">
           <StatCard class="basis-1/4 pr-5">
-            <div class="px-12 py-6">
-              Average balls potted per game = {{ isNaN(averageBallPottedPerGame) ? 0 : averageBallPottedPerGame }}
+            <div class="flex">
+              <img src="https://images.pexels.com/photos/6253681/pexels-photo-6253681.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" width="52%" />
+              <div class="px-10 py-6 flex flex-col">
+                <span class="mx-auto mt-auto text-gray-300">Average potted per game</span>
+                <span class="mx-auto mb-auto mt-4">{{ isNaN(averageBallPottedPerGame) ? 0 : averageBallPottedPerGame }}</span>
+              </div>
             </div>
+
           </StatCard>
           <StatCard  class="basis-1/4 pr-5">
-            <div class="px-12 py-6">
-              Best Location = {{ getLocationName(bestLocation) }}
+            <div class="flex">
+              <img src="https://images.pexels.com/photos/6032656/pexels-photo-6032656.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" width="52%"/>
+              <div class="px-12 py-6 flex flex-col">
+                <span class="mx-auto mt-auto text-gray-300">Most wins at Location</span>
+                <span class="mx-auto mb-auto mt-4">{{ getLocationName(bestLocation) }}</span>
+              </div>
             </div>
           </StatCard>
-          <StatCard  class="basis-1/4 pr-5">
-            <div class="px-12 py-6">
-              Best Ball Colour = {{ bestBallColour }}
+          <StatCard class="basis-1/4 pr-5">
+            <div class="flex">
+              <img src="https://images.pexels.com/photos/7403781/pexels-photo-7403781.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" width="55%" />
+              <div class="px-12 py-8 flex flex-col">
+                <div class="mx-auto mt-auto text-gray-300">Favourite Ball Colour</div>
+                <div class="mx-auto mb-auto mt-4">{{ bestBallColour }}</div>
+              </div>
             </div>
           </StatCard>
           <StatCard class="basis-1/4">
-            <div class="px-12 py-6">
-              Nemesis = {{ nemesis }}<br />
-              Best Friend = {{ bestFriend }}
+            <div class="flex">
+              <div class="w-1/2">
+                <img src="https://images.pexels.com/photos/10627115/pexels-photo-10627115.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="object-fill"/>
+              </div>
+              <div class="px-12 py-6 flex flex-col">
+                <div class="my-auto mx-auto">
+                  <div class="text-gray-300">Nemesis</div>
+                  <div class="mt-2 mb-6">{{ nemesis }}</div>
+                  <div class="text-gray-300">Best Friend</div>
+                  <div class="mt-2">{{ bestFriend }}</div>
+                </div>
+
+              </div>
             </div>
           </StatCard>
       </div>
