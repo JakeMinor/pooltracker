@@ -54,7 +54,7 @@
             </div>
           </div>
           <div class="mt-4 flex">
-            <span class="mx-auto text-gray-300">{{ getLocationName(lastGame.location) }} - {{ dayjs(lastGame.created).format('DD/MM/YYYY @ HH:mm') }}</span>
+            <span class="mx-auto text-gray-300 text-sm">{{ getLocationName(lastGame.location) }} - {{ dayjs(lastGame.created).format('DD/MM/YYYY @ HH:mm') }}</span>
           </div>
 
         </div>
