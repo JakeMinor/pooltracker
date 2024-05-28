@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    BallColour: typeof import('./src/components/stats/BallColour.vue')['default']
     Button: typeof import('primevue/button')['default']
     DataView: typeof import('primevue/dataview')['default']
     Dialog: typeof import('primevue/dialog')['default']

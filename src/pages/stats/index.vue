@@ -1,9 +1,9 @@
 <template>
   <div class="w-100">
     <div class="flex">
-      <StatCard title="General" class="basis-3/5 pr-5 ">
+      <StatCard title="General" class="basis-3/5 pr-5 h-10">
         <div class="px-12 py-6">
-          <div class="flex justify-around ">
+          <div class="flex justify-around">
             <div class="flex flex-col">
               <span class="text-gray-300 text-sm">Games played</span>
               <span class="mx-auto">{{ totalGamesPlayed }}</span>
@@ -33,18 +33,32 @@
           </div>
         </div>
       </StatCard>
-      <StatCard title="Last Game" class="basis-2/5">
-        <div class="flex flex-col">
-          <span>Opponent: {{ id === lastGame.player1Id ? lastGame.player2Name : lastGame.player1Name }}</span>
-          <div class="flex flex-col">
-            Score
-            <div class="flex">
-              <BallColour class="me-2" :ball-colour="lastGame.player1BallColour"/> <span class="me-2">{{ lastGame.player1Score }}</span> : <span class="ms-2">{{ lastGame.player2Score }}</span><BallColour class="ms-2" :ball-colour="lastGame.player2BallColour"/>
+      <StatCard title="Last Game" class="basis-2/5 overflow-hidden">
+        <div class="px-12 py-10">
+          <div class="flex">
+            <div class="flex ms-auto">
+              <div>
+                <BallColour class="mx-auto" :ball-colour="lastGame.player1BallColour"/>
+                <p class="mt-2">{{ lastGame.player1Name }}</p>
+              </div>
+
+              <span class="ms-7 my-auto">{{ lastGame.player1Score }}</span>
+            </div>
+            <span class="mx-5 my-auto">vs</span>
+            <span class="me-7 my-auto">{{ lastGame.player2Score }}</span>
+            <div class="flex me-auto">
+              <div>
+                <BallColour class="mx-auto" :ball-colour="lastGame.player2BallColour"/>
+                <p class="mt-2">{{ lastGame.player2Name }}</p>
+              </div>
             </div>
           </div>
-          {{ dayjs(lastGame.created).format('DD/MM/YYYY @ HH:mm') }}
-          {{ getLocationName(lastGame.location)}}
+          <div class="mt-4 flex">
+            <span class="mx-auto text-gray-300">{{ getLocationName(lastGame.location) }} - {{ dayjs(lastGame.created).format('DD/MM/YYYY @ HH:mm') }}</span>
+          </div>
+
         </div>
+
       </StatCard>
       </div>
       <div class="pt-20">
